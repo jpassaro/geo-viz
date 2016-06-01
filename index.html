@@ -1,1 +1,27 @@
-sierpinski.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="demo.css"media="screen">
+    <link rel="stylesheet" href="demo-print.css"media="print">
+    <style media="screen">
+        #holder {
+            height: 419px;
+            margin: -205px 0 0 -305px;
+            width: 619px;
+        }
+    </style>
+    <script src="raphael.js"></script>
+    <script src="sierpinski.js"></script>
+
+    <script>
+      window.onload = function() {
+        var r = Raphael("holder",619,419);
+        setupSierpinski(r,triangleParams);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="holder"></div>
+  </body>
+</html>
