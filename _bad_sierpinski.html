@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" media="screen" href="demo.css" />
+    <link rel="stylesheet" media="print" href="demo-print.css" />
+    <style media="screen">
+        #holder {
+            height: 419px;
+            margin: -205px 0 0 -305px;
+            width: 619px;
+        }
+    </style>
+    <script src="raphael.js"></script>
+    <script>
+      var iterSierpinski = function (elt,sierpinskiProps){
+        console.log("calling iterSierpinski with "+sierpinskiProps);
+        var p = sierpinskiProps;
+        p.applyScale(elt);
+        set = elt.paper.set().push(elt);
+
+        var doTransform = function(i){
+          var nextOp = function(){ };
+          if (i+1<p.transforms.length){
+            nextOp = function() {doTransform(i+1);};
+          }
+          var clone = elt.clone(),
+             finalAttrs = { transform: elt.transform()+p.transforms[i]};
+
+          clone.animate(finalAttrs,p.animTime,"linear", nextOp);
+        }
+
+        for(var i=0; i<p.transforms; i++){
+          console.log("applying transformation"+p.transforms[i]);
+          var clone = elt.clone();
+          p.applyTransform(p.transforms[i],clone);
+          set.push(clone);
+        }
+        set.click(function(){iterSierpinski(set,sierpinskiProps)});
+        return set;
+      }
+      var sierpinskiProps = {
+        applyScale: function(elt){elt.transform("s"+(1.0/3)+" 0 0");},
+        transforms: ["t0,20","t0,20",
+                     "t20,0","t20,0",
+                     "t0,-20","t0,-20",
+                     "t-20,0"],
+        applyTransform: function(t,elt){ elt.animate({transform:elt.transform()+t},1000); },
+        cloneStartAttrs: {}
+      };
+      window.onload = function(){
+        console.log("called window.onload");
+        var r = Raphael("holder",619,419);
+        var shape = r.rect(0,0,300,300).attr({fill:"#000", "fill-opacity":"0"});
+        shape.click(function(){iterSierpinski(shape,sierpinskiProps);})
+
+      };
+    </script>
+  </head>
+  <body>
+    <div id="holder"> </div>
+    <p>
+      This is a demo of a Sierpinski square animation.
+    </p>
+  </body>
+</html>

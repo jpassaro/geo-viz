@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="demo.css"media="screen">
+    <link rel="stylesheet" href="demo-print.css"media="print">
+    <style media="screen">
+        #holder {
+            height: 419px;
+            margin: -205px 0 0 -305px;
+            width: 619px;
+        }
+    </style>
+    <script src="raphael.js"></script>
+    <script>
+      var rect;
+      window.onload = function() {
+        var r = Raphael("holder",619,419),
+           positions = ["","r90,100,100","r180,100,100","r0,100"],
+           pos = 0, globalpos = 0;
+        rect = r.rect(0,0,100,100);
+        rect.attr("fill","#000");
+        function rectclick(){
+          rect.unclick();
+          console.log("rect onclick");
+          move(function() {
+            console.log("end animation");
+            rect.toFront();
+            rect.click(rectclick);
+          });
+          console.log("(rect onclick)");
+        }
+        function applyTranslation
+        function move(ending){
+          var invocation = ++globalpos;
+          console.log("move #"+invocation/*+", ending is "+ending*/);
+          rect.clone().attr("fill","#f00").attr("fill-opacity",0.2).toBack();
+          pos = (pos+1)%positions.length;
+          rect.animate({transform: applyRotation(rect.matrix,90,100,100)},1000,"linear",
+            pos?function() {move(ending)}:ending);
+          console.log("(move #"+invocation+")");
+        }
+        rect.click(rectclick);
+
+      }
+    </script>
+  </head>
+  <body>
+    <div id="holder"></div>
+    <p>Hello!</p>
+  </body>
+</html>

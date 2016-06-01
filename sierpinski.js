@@ -1,7 +1,3 @@
-/*
-
-*/
-
 // relies on raphael.js
 console.log = function(){}
 
@@ -97,7 +93,7 @@ function setupSierpinski(paper, params){
   var cBox = startingItem.getBBox();
   var clickable = paper.rect(cBox.x,cBox.y,cBox.width,cBox.height).toFront()
     // .attr({fill:"#f00","fill-opacity":0.1,})
-    .attr({fill:"#fff","opacity":0.00});
+    .attr({fill:"#fff","fill-opacity":0.05});
   sierpinskiClick(startingSet,clickable,params);
 }
 
